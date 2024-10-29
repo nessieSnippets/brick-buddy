@@ -1,0 +1,18 @@
+{
+  "name": "brick-buddy",
+  "version": "0.0.1",
+  "description": "Brick buddy",
+  "main": "./src/buddy.js",
+  "scripts": {
+    "buddy": "node ./src/cli.js",
+    "buddy:build": "node ./src/cli.js build",
+    "buddy:plan": "node ./src/cli.js plan"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@inquirer/prompts": "^7.0.1",
+    "cli-color": "^2.0.4",
+    "commander": "^12.1.0"
+  }
+}
