@@ -140,78 +140,6 @@ const layABrick = (coords, wall, envelopeState, strideNumber) => {
 }
 
 /**
- * RECURSIVE: Method to lay Bricks until limit reached
- * @param {*} coords Current pointer coordiates.
- * @param {*} wall The current state of the wall
- * @param {*} envelopeState Contains information about original starting point, as well
- * as the bounds of the envelope (bottomrLeft, topRight)
- * @returns |
- *  If the brick is laid, returns new pointer coords, updated wall and envelopeState
- *  If the brick is not laid, finds the next pointer coordinates. If unsucessful, will return false.
- */
-const layBrick = (coords, wall, envelopeState, strideNumber) => {
-    const { x, y } = coords;
-    const { strideBuiltX, startPoint, bottomLeft, topRight } = envelopeState;
-
-    const currentBrickCoords = getBrickCoords(coords, wall);
-    const isLayable = canLayBrick(currentBrickCoords, wall, envelopeState);
-    if (isLayable) {
-        // Lay the brick
-        currentBrickCoords.forEach(({ x, y }) => {
-            const brickCell = wall[y][x];
-            wall[y][x] = { ...brickCell, state: 1, buildGroup: strideNumber };
-        });
-        // Update the envelope info
-        const changeY = y - startPoint.y;
-
-        const rightMostCell = currentBrickCoords.slice(-1);
-        const newBottomLeft = {
-            ...bottomLeft,
-            x: bottomLeft.x < currentBrickCoords[0].x ? bottomLeft.x : currentBrickCoords[0].x,
-        }
-        const newTopRight = {
-            ...topRight,
-            x: topRight.x > rightMostCell.x ? topRight.x : rightMostCell.x,
-            y: topRight.y + changeY,
-        }
-        
-        const updatedEnvelope = {
-            ...envelopeState,
-            strideBuiltX: strideBuiltX + currentBrickCoords.length / 2,
-            strideBuiltY: changeY,
-            bottomLeft: newBottomLeft,
-            topRight: newTopRight,
-        }
-
-        // Deciding where to go next...
-        let nextCoords = { x: x + currentBrickCoords.length, y: y};
-        if(nextCoords.x < wall[0].length) {
-            return layBrick(nextCoords, wall, updatedEnvelope, strideNumber);
-        }
-        else { 
-            // We have hit the edge of the wall
-            // Move up to the next row
-            nextCoords.x = startPoint.x;
-            nextCoords.y +=1;
-            return layBrick(nextCoords, wall, updatedEnvelope, strideNumber);    
-        }
-    } else {
-        // Find the next coordinates if possible and continue
-        const nextCoords = findNextBuildCoords(coords, wall, envelopeState);
-        if (nextCoords) {
-            return layBrick(nextCoords, wall, envelopeState, strideNumber);
-        } else {
-            return {
-                coords,
-                wall,
-                envelopeState,
-                strideComplete: true,
-            };
-        }
-    }
-}
-
-/**
  * Returns an array representing the X,Y coordinates of the brick in the grid
  * Half bricks will be array.length of 1
  * Assumes a valid place on the Grid
@@ -303,7 +231,6 @@ const findNextStartingPointInRow = (startingCoords, wall, envelopeState) => {
         // Move to the left and try again.
         const nextCoords = {
             ...startingCoords,
-            // x: startingCoords.x + brickCoords.length, // Adds 1 or 2 depending on if it's a half brick
             x: nextX,
         }
         return findNextStartingPointInRow(nextCoords, wall, envelopeState);
