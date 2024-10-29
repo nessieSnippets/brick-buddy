@@ -93,7 +93,7 @@ const canLayBrick = (brickCoords, wall, envelopeState) => {
 const layABrick = (coords, wall, envelopeState, strideNumber) => {
     const { x, y } = coords;
     const { strideBuiltX, strideBuiltY, startPoint, bottomLeft, topRight } = envelopeState;
-
+    
     const currentBrickCoords = getBrickCoords(coords, wall);
     const isLayable = canLayBrick(currentBrickCoords, wall, envelopeState);
     if (isLayable) {
@@ -106,7 +106,8 @@ const layABrick = (coords, wall, envelopeState, strideNumber) => {
         // Update the envelope info
         const changeInY = y - startPoint.y;
 
-        const rightMostCell = currentBrickCoords.slice(-1);
+        const [rightMostCell] = currentBrickCoords.slice(-1);
+
         const newBottomLeft = {
             ...bottomLeft,
             x: bottomLeft.x < currentBrickCoords[0].x ? bottomLeft.x : currentBrickCoords[0].x,
@@ -114,7 +115,7 @@ const layABrick = (coords, wall, envelopeState, strideNumber) => {
         const newTopRight = {
             ...topRight,
             x: topRight.x > rightMostCell.x ? topRight.x : rightMostCell.x,
-            y: topRight.y + changeInY,
+            y: topRight.y > rightMostCell.y ? topRight.y : rightMostCell.y,
         }
         
         const updatedEnvelope = {
@@ -170,7 +171,7 @@ const layBrick = (coords, wall, envelopeState, strideNumber) => {
         }
         const newTopRight = {
             ...topRight,
-            x: topRight.x > rightMostCell.x ? topRight.x : topRight.x + currentBrickCoords.length,
+            x: topRight.x > rightMostCell.x ? topRight.x : rightMostCell.x,
             y: topRight.y + changeY,
         }
         
@@ -187,7 +188,8 @@ const layBrick = (coords, wall, envelopeState, strideNumber) => {
         if(nextCoords.x < wall[0].length) {
             return layBrick(nextCoords, wall, updatedEnvelope, strideNumber);
         }
-        else { // We have hit the edge of the wall
+        else { 
+            // We have hit the edge of the wall
             // Move up to the next row
             nextCoords.x = startPoint.x;
             nextCoords.y +=1;
@@ -314,7 +316,6 @@ const withinGridBounds = (coord, wall) => {
 }
 
 module.exports = {
-    layBrick,
     layABrick,
     findNextBuildCoords,
     isWallComplete,

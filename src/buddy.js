@@ -82,7 +82,7 @@ const promptLayBrick = async (coords, wall, buildEnvelope, strideNumber) => {
     } else {
         // Stop stride
         printGrid(updatedWall);
-        return { coords: newCoords, wall: updatedWall }; // our last state
+        return { coords: newCoords, wall: updatedWall };
     }
 }
 
