@@ -1,5 +1,5 @@
 const { program } = require("commander");
-const { confirm, select } = require('@inquirer/prompts');
+const { confirm, select, input } = require('@inquirer/prompts');
 const { layAStride, DEFAULT_EMPTY_GRID } = require('./buddy');
 const { visualiseStretcherBond, visualiseStackBond, printGrid } = require('./grid');
 
@@ -76,13 +76,26 @@ program.command('build')
             ],
             default: "stretcher"
         });
-        // Build
         const startWall = bondType === "stretcher" ? designStretcherBond : designStackBond;
 
-        const proceed = await confirm({ message: "Want to build a wall?" });
-
+        // Select starting point
+        const maxXCoord = startWall[0].length - 1;
+        const startPointInput = await input({
+            message: "Pick your starting coordinate, defaults to [0,0]",
+            default: 0,
+            validate: (input) => {
+                const _input = parseInt(input);
+                return _input >= 0 && _input < maxXCoord;
+            },
+        });
+        const startPointX = parseInt(startPointInput);
+        const startingCoords = { x: startPointX, y: 0 };
+        console.log(startingCoords)
+        // Build
+        const proceed = await confirm({ message: "Ready to build a wall?" });
         if (proceed) {
-            const { strideNumber, wallComplete } = await layAStride({ x: 0, y: 0 }, startWall, STRIDE_NUMBER);
+            console.log(`Starting at ${startingCoords.x, startingCoords.y}...`);
+            const { strideNumber, wallComplete } = await layAStride(startingCoords, startWall, STRIDE_NUMBER);
             if (wallComplete) {
                 printGrid(wall);
                 console.log(`Wall completed in ${strideNumber} strides`);

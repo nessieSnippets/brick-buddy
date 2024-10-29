@@ -23,13 +23,20 @@ npm run buddy
 
 ## Output
 
-Buddy can build a wall !
+Buddy can build a wall ! 
+
+This bond took 27 moves:
 
 ![Screenshot of final build state](./img/build_output_3.png)
 
-Check out the screenshots in the `img` folder for development history. This stretcher bond took 27 moves.
+This bond began at [5,0] on the grid, and took 26 moves:
+![Screenshot of final build state with offset start](./img/build_output_4.png)
 
-Firstly, Buddy calculates the grid that he's operating in, based on the wall's height and width. Then he plans the bond within that grid. The intention with this appraoch was that Buddy could swap to other forms of Bond, however, it cannot handle bonds who are offset by a half brick (e.g. English Bond, who has header joints in the middle of a half brick).
+Check out the screenshots in the `img` folder for development history. 
+
+### Approach
+
+Firstly, Buddy calculates the grid that he's operating in, based on the wall's height and width. Then he plans the bond within that grid. The intention with this appraoch was that Buddy could swap to other forms of Bond, however, it needs refactoring to be able to handle bonds which have half brick offsets (e.g. English Bond).
 
 ## Next steps & ideas
 
