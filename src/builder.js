@@ -5,20 +5,16 @@ const { envelopeMaxBricksWidth, envelopeMaxBricksHeight } = require('./helpers/c
  * @returns boolean
  */
 const isWallComplete = (wall) => {
-    let designBrickFound = false;
-    for(let y = 0; y < wall.length; y++) {
-        const row = wall[y];
-        if(designBrickFound) break;
-        for(let x = 0; x < row; x++) {
-            const cell = row[x];
-            if(cell.state === 0) {
-                designBrickFound = true;
-                break;
-            }
-        }
-    }
+    let containsDesignBricks = false;
 
-    return designBrickFound;
+    wall.forEach((row) => {
+        row.forEach((cell) => {
+            if(cell.state === 0) {
+                containsDesignBricks = true;
+            }
+        })
+    });
+    return !containsDesignBricks;
 }
 
 /**
