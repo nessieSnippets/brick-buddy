@@ -25,18 +25,18 @@ npm run buddy
 
 Buddy can build a wall !
 
-![Screenshot of final build state](./img/build_output_2.png)
+![Screenshot of final build state](./img/build_output_3.png)
 
-But... his build isn't great. His doesn't move back left enough when starting a new row which means he misses opportunities to place bricks whilst in a stride in Stretcher Bond. This means it takes longer to build a wall.
-
-(Checkout `/img` folder for other output screenshots)
+Check out the screenshots in the `img` folder for development history. This stretcher bond took 27 moves.
 
 Firstly, Buddy calculates the grid that he's operating in, based on the wall's height and width. Then he plans the bond within that grid. The intention with this appraoch was that Buddy could swap to other forms of Bond, however, it cannot handle bonds who are offset by a half brick (e.g. English Bond, who has header joints in the middle of a half brick).
 
-## Next steps
+## Next steps & ideas
 
 - Fix: program exit incorrect
-- Fix: correctly use the whole build envelope when building
+- Improve: extra loops and prints
 - Allow user to skip interaction at each brick / stride step
+- Improve the build algorithm!
+- Change up mapping to allow for different bonds which have half brick offsets
 - Create an output file with the wall's build information
-- Make this an NPM package
+- Make this an NPM package ?
