@@ -25,11 +25,11 @@ npm run buddy
 
 Buddy can build a wall !
 
-![Screenshot of final build state](./current_output.png)
+![Screenshot of final build state](./img/build_output_2.png)
 
-But... his build isn't great. He misses opportunities to place bricks whilst in a stride in Stretcher Bond. This means it takes longer to build a wall. For example: 
-  
-![Sreenshot showing strides (e.g. yellow) which could have another brick](./in_play_example.png)
+But... his build isn't great. His doesn't move back left enough when starting a new row which means he misses opportunities to place bricks whilst in a stride in Stretcher Bond. This means it takes longer to build a wall.
+
+(Checkout `/img` folder for other output screenshots)
 
 Firstly, Buddy calculates the grid that he's operating in, based on the wall's height and width. Then he plans the bond within that grid. The intention with this appraoch was that Buddy could swap to other forms of Bond, however, it cannot handle bonds who are offset by a half brick (e.g. English Bond, who has header joints in the middle of a half brick).
 
