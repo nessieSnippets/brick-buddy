@@ -71,13 +71,18 @@ const layAStride = async (startCoords, wall, strideNumber) => {
 const promptLayBrick = async (coords, wall, buildEnvelope, strideNumber) => {
     const { coords: newCoords, wall: updatedWall, envelopeState: updatedEnvelope } = layABrick(coords, wall, buildEnvelope, strideNumber);
 
-    // Get next coordinates
     const nextCoords = findNextBuildCoords(newCoords, updatedWall, updatedEnvelope);
     if (nextCoords) {
+        // Experiment
+        // If new coords push to new row, redo the find with 0
+
+        const isPointerAtNewRow = nextCoords.y > newCoords.y;
+        const _nextCoords = { ...nextCoords, x: isPointerAtNewRow ? 0 : nextCoords.x};
+        
         printGrid(updatedWall);
         const next = await confirm({ message: "Next brick?" });
         if (next) {
-            return promptLayBrick(nextCoords, updatedWall, updatedEnvelope, strideNumber);
+            return promptLayBrick(_nextCoords, updatedWall, updatedEnvelope, strideNumber);
         }
     } else {
         // Stop stride

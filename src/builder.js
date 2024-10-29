@@ -52,10 +52,12 @@ const canLayBrick = (brickCoords, wall, envelopeState) => {
         x: topRight.x > rightMostCell.x ? topRight.x : rightMostCell.x,
         y: topRight.y > rightMostCell.y ? topRight.y : rightMostCell.y,
     }
+
     // Check if outside possible envelope
     const xDiff = newTopRight.x - newBottomLeft.x;
     const yDiff = newTopRight.y - newBottomLeft.y;
-    if(xDiff > envelopeMaxBricksWidth * 2 ) {
+    const xDiffMax = (envelopeMaxBricksWidth * 2) - 1;
+    if(xDiff > xDiffMax) {
         return false;
     } if (yDiff > envelopeMaxBricksHeight) {
         return false;
@@ -131,7 +133,12 @@ const layABrick = (coords, wall, envelopeState, strideNumber) => {
             strideNumber,
         }
     } else {
-        console.error(`Brick at starting point (${x}, ${y}) was not layable`);
+        return {
+            coords,
+            wall,
+            envelopeState,
+            strideNumber,
+        }
     }
 }
 
